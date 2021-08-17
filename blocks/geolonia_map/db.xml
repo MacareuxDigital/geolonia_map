@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+        xmlns="http://www.concrete5.org/doctrine-xml/0.5"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.concrete5.org/doctrine-xml/0.5 http://concrete5.github.io/doctrine-xml/doctrine-xml-0.5.xsd">
+    <table name="btGeoloniaMap">
+        <field name="bID" type="integer">
+            <unsigned/>
+            <key/>
+        </field>
+        <field name="location" type="string" size="255" />
+        <field name="latitude" type="float">
+            <default value="0"/>
+            <notnull/>
+        </field>
+        <field name="longitude" type="float">
+            <default value="0"/>
+            <notnull/>
+        </field>
+        <field name="zoom" type="smallint" comment="0 - 24">
+            <default value="16"/>
+            <notnull/>
+        </field>
+        <field name="bearing" type="smallint" comment="0 - 359">
+            <default value="0"/>
+            <notnull/>
+        </field>
+        <field name="pitch" type="smallint" comment="0 - 60">
+            <default value="0"/>
+            <notnull/>
+        </field>
+        <field name="marker" type="string" size="4" comment="'on' or 'off'">
+            <default value="on"/>
+            <notnull/>
+        </field>
+        <field name="marker_color" type="string" size="255" />
+        <field name="open_popup" type="string" size="4" comment="'on' or 'off'">
+            <default value="off"/>
+            <notnull/>
+        </field>
+        <field name="popup_content" type="text" />
+        <field name="gesture_handling" type="string" size="4" comment="'on' or 'off'">
+            <default value="on"/>
+            <notnull/>
+        </field>
+        <field name="navigation_control" type="string" size="12" comment="'on', 'off', 'top-right', 'bottom-right', 'bottom-left', 'top-left'">
+            <default value="on"/>
+            <notnull/>
+        </field>
+        <field name="geolocate_control" type="string" size="12" comment="'on', 'off', 'top-right', 'bottom-right', 'bottom-left', 'top-left'">
+            <default value="off"/>
+            <notnull/>
+        </field>
+        <field name="fullscreen_control" type="string" size="12" comment="'on', 'off', 'top-right', 'bottom-right', 'bottom-left', 'top-left'">
+            <default value="off"/>
+            <notnull/>
+        </field>
+        <field name="scale_control" type="string" size="12" comment="'on', 'off', 'top-right', 'bottom-right', 'bottom-left', 'top-left'">
+            <default value="off"/>
+            <notnull/>
+        </field>
+        <field name="style" type="string" size="12" comment="'basic', 'midnight', 'red-planet', 'notebook'">
+            <default value="basic"/>
+            <notnull/>
+        </field>
+    </table>
+</schema>
