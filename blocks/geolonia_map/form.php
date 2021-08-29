@@ -47,7 +47,7 @@ echo app('helper/concrete/ui')->tabs([
     ['geolonia-map-preview', t('Preview')],
 ]); ?>
 <div class="tab-content">
-    <div class="ccm-tab-content tab-pane show active"
+    <div class="<?php if ($is_version9) { ?>tab-pane show active<?php } else { ?>ccm-tab-content<?php } ?>"
          id="<?php if (!$is_version9) { ?>ccm-tab-content-<?php } ?>geolonia-map-basics" role="tabpanel">
         <fieldset>
             <div class="form-group">
@@ -91,7 +91,7 @@ echo app('helper/concrete/ui')->tabs([
             </div>
         </fieldset>
     </div>
-    <div class="ccm-tab-content tab-pane"
+    <div class="<?php if ($is_version9) { ?>tab-pane<?php } else { ?>ccm-tab-content<?php } ?>"
          id="<?php if (!$is_version9) { ?>ccm-tab-content-<?php } ?>geolonia-map-advanced" role="tabpanel">
         <fieldset>
             <div class="form-group">
@@ -176,7 +176,7 @@ echo app('helper/concrete/ui')->tabs([
             </div>
         </fieldset>
     </div>
-    <div class="ccm-tab-content tab-pane"
+    <div class="<?php if ($is_version9) { ?>tab-pane<?php } else { ?>ccm-tab-content<?php } ?>"
          id="<?php if (!$is_version9) { ?>ccm-tab-content-<?php } ?>geolonia-map-preview" role="tabpanel">
         <div class="form-group">
             <div id="preview-geolonia-map-alert" class="alert alert-warning <?= h($css_class_d_none) ?>"
