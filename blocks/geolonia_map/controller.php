@@ -84,6 +84,11 @@ class Controller extends BlockController
         $this->set('color', $this->app->make('helper/form/color'));
         $this->set('editor', $this->app->make('editor'));
         $this->set('popup_content', $this->getPopupContentEditMode());
+
+        $installedVersion = $this->app->make('config')->get('concrete.version_installed');
+        if (version_compare($installedVersion, '9.0.0b', '>=')) {
+            $this->set('is_version9', true);
+        }
     }
 
     /**
