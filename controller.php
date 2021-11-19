@@ -2,6 +2,7 @@
 
 namespace Concrete\Package\GeoloniaMap;
 
+use Concrete\Core\Error\UserMessageException;
 use Concrete\Core\Package\Package;
 
 class Controller extends Package
@@ -25,7 +26,7 @@ class Controller extends Package
      *
      * @var string
      */
-    protected $pkgVersion = '0.0.1';
+    protected $pkgVersion = '0.0.2';
 
     /**
      * Get the translated name of the package.
@@ -34,7 +35,7 @@ class Controller extends Package
      */
     public function getPackageName()
     {
-        return t('Geolonia Map');
+        return t('C5J Geolonia Map');
     }
 
     /**
@@ -54,6 +55,10 @@ class Controller extends Package
      */
     public function install()
     {
+        if (version_compare(PHP_VERSION, '7.1.0', '<')) {
+            throw new UserMessageException(t('This add-on requires PHP 7.1+ to run. You are running PHP %s', PHP_VERSION));
+        }
+
         $package = parent::install();
         $this->installContentFile('config/blocktypes.xml');
 

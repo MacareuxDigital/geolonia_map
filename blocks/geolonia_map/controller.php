@@ -2,10 +2,13 @@
 
 namespace Concrete\Package\GeoloniaMap\Block\GeoloniaMap;
 
+defined('C5_EXECUTE') or die('Access Denied.');
+
 use Concrete\Core\Asset\AssetList;
 use Concrete\Core\Block\BlockController;
 use Concrete\Core\Config\Repository\Liaison;
 use Concrete\Core\Editor\LinkAbstractor;
+use Concrete\Core\Localization\Localization;
 use Concrete\Core\Package\PackageService;
 use Concrete\Core\Utility\Service\Validation\Numbers;
 
@@ -80,7 +83,7 @@ class Controller extends BlockController
     public function edit()
     {
         $this->requireAsset('javascript', 'geolonia/community-geocoder');
-        $this->set('api_key', $this->getApiKay());
+        $this->set('api_key', $this->getApiKey());
         $this->set('color', $this->app->make('helper/form/color'));
         $this->set('editor', $this->app->make('editor'));
         $this->set('popup_content', $this->getPopupContentEditMode());
@@ -173,6 +176,29 @@ class Controller extends BlockController
     {
         $this->requireAsset('javascript', 'geolonia/embed');
         $this->set('popup_content', $this->getPopupContent());
+
+        $lang = Localization::activeLanguage();
+        if ($lang !== 'ja') {
+            // Geolonia Maps only support ja or en
+            $lang = 'en';
+        }
+        $this->set('lang', $lang);
+        $this->set('location', $this->location);
+        $this->set('latitude', $this->latitude);
+        $this->set('longitude', $this->longitude);
+        $this->set('zoom', ($this->zoom) ? $this->zoom : 16);
+        $this->set('bearing', $this->bearing);
+        $this->set('pitch', $this->pitch);
+        $this->set('marker', ($this->marker) ? $this->marker : 'on');
+        $this->set('marker_color', $this->marker_color);
+        $this->set('open_popup', ($this->open_popup) ? $this->open_popup : 'off');
+        $this->set('popup_content', $this->popup_content);
+        $this->set('gesture_handling', ($this->gesture_handling) ? $this->gesture_handling : 'on');
+        $this->set('navigation_control', ($this->navigation_control) ? $this->navigation_control : 'on');
+        $this->set('geolocate_control', ($this->geolocate_control) ? $this->geolocate_control : 'off');
+        $this->set('fullscreen_control', ($this->fullscreen_control) ? $this->fullscreen_control : 'off');
+        $this->set('scale_control', ($this->scale_control) ? $this->scale_control : 'off');
+        $this->set('style', ($this->style) ? $this->style : 'basic');
     }
 
     public function on_start()
@@ -191,7 +217,7 @@ class Controller extends BlockController
         $assetList->register(
             'javascript',
             'geolonia/embed',
-            'https://cdn.geolonia.com/v1/embed?geolonia-api-key=' . $this->getApiKay(),
+            'https://cdn.geolonia.com/v1/embed?geolonia-api-key=' . $this->getApiKey(),
             [
                 'local' => false,
                 'combine' => false,
@@ -210,7 +236,7 @@ class Controller extends BlockController
         return LinkAbstractor::translateFromEditMode($this->popup_content);
     }
 
-    protected function getApiKay(): string
+    protected function getApiKey(): string
     {
         $config = $this->getPackageConfig();
         if ($config) {
