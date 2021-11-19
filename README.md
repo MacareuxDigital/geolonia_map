@@ -1,4 +1,4 @@
-# concrete5 Add-on: Geolonia Map
+# concrete5 Add-on: C5J Geolonia Map
 A concrete5 package to to embed Geolonia Map.
 
 ## Geolonia Maps
