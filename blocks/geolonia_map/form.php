@@ -8,9 +8,9 @@ $api_key = $api_key ?? '';
 /** @var string $location */
 $location = $location ?? '';
 /** @var float $latitude */
-$latitude = $latitude ?? 0;
+$latitude = $latitude ?? 35.6818;
 /** @var float $longitude */
-$longitude = $longitude ?? 0;
+$longitude = $longitude ?? 139.752;
 /** @var int $zoom */
 $zoom = $zoom ?? 16;
 /** @var int $bearing */
@@ -59,7 +59,7 @@ echo app('helper/concrete/ui')->tabs([
             <div class="form-group">
                 <?= $form->label('location', t('Address')) ?>
                 <div class="input-group">
-                    <?= $form->text('location', $location) ?>
+                    <?= $form->text('location', $location, ['maxlength' => 255]) ?>
                     <?php if ($is_version9) { ?>
                         <?= $form->button('get-lat-lng', t('Get Coordinates'), ['class' => 'btn btn-outline-secondary']) ?>
                     <?php } else { ?>
@@ -68,18 +68,20 @@ echo app('helper/concrete/ui')->tabs([
                     </div>
                     <?php } ?>
                 </div>
+                <div class="alert alert-warning <?= h($css_class_d_none) ?>"
+                     id="location_alert"><?= t('Can not get coordinates from the given address. Please try another address or input them manually.') ?></div>
             </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <?= $form->label('latitude', t('Latitude')) ?>
-                        <?= $form->number('latitude', $latitude, ['step' => 'any']) ?>
+                        <?= $form->number('latitude', $latitude, ['step' => 'any', 'min' => '-90', 'max' => '90']) ?>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <?= $form->label('longitude', t('Longitude')) ?>
-                        <?= $form->number('longitude', $longitude, ['step' => 'any']) ?>
+                        <?= $form->number('longitude', $longitude, ['step' => 'any', 'min' => '-180', 'max' => '180']) ?>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -196,6 +198,7 @@ echo app('helper/concrete/ui')->tabs([
 $(function () {
     let elemApiKey = document.getElementById('api_key'),
         elemApiKeyAlert = document.getElementById('api_key_alert'),
+        elemLocationAlert = document.getElementById('location_alert'),
         elemMapContainer = document.getElementById('preview-geolonia-map-container'),
         elemMapAlert = document.getElementById('preview-geolonia-map-alert'),
         elemMapError = document.getElementById('preview-geolonia-map-error'),
@@ -257,10 +260,20 @@ $(function () {
     document.getElementById('get-lat-lng').addEventListener('click', () => {
         if (document.getElementById('location').value) {
             getLatLng(document.getElementById('location').value, (latlng) => {
-                // console.log(latlng)
-                document.getElementById('latitude').value = latlng.lat
-                document.getElementById('longitude').value = latlng.lng
+                console.log(latlng)
+                if (latlng.lat) {
+                    document.getElementById('latitude').value = latlng.lat
+                    document.getElementById('longitude').value = latlng.lng
+                    elemLocationAlert.classList.add('<?= h($css_class_d_none) ?>')
+                } else {
+                    elemLocationAlert.classList.remove('<?= h($css_class_d_none) ?>')
+                }
+            }, (e) => {
+                console.log(e)
+                elemLocationAlert.classList.remove('<?= h($css_class_d_none) ?>')
             })
+        } else {
+            elemLocationAlert.classList.remove('<?= h($css_class_d_none) ?>')
         }
     })
     document.querySelector('[data-tab=geolonia-map-preview], #geolonia-map-preview-tab').addEventListener('click', () => {

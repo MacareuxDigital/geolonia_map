@@ -192,7 +192,6 @@ class Controller extends BlockController
         $this->set('marker', ($this->marker) ? $this->marker : 'on');
         $this->set('marker_color', $this->marker_color);
         $this->set('open_popup', ($this->open_popup) ? $this->open_popup : 'off');
-        $this->set('popup_content', $this->popup_content);
         $this->set('gesture_handling', ($this->gesture_handling) ? $this->gesture_handling : 'on');
         $this->set('navigation_control', ($this->navigation_control) ? $this->navigation_control : 'on');
         $this->set('geolocate_control', ($this->geolocate_control) ? $this->geolocate_control : 'off');
